@@ -697,9 +697,9 @@ Average sweat rate guidelines are starting points only. Individual sweat rates d
 5. Weigh yourself immediately post-exercise (nude, toweled dry)
 
 **Calculation:**
-```
-Sweat Rate (L/hour) = [(Pre-weight − Post-weight) + Fluid consumed − Urine] / Exercise duration (hours)
-```
+\`\`\`
+Sweat Rate (L/hour) = [(Pre-weight - Post-weight) + Fluid consumed - Urine] / Exercise duration (hours)
+\`\`\`
 
 **Example:**
 - Pre-weight: 70.0 kg
