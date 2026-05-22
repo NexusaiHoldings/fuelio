@@ -100,7 +100,7 @@ export default async function LessonPage({
     (p) => p.moduleSlug === mod.slug && p.lessonSlug === lesson.slug,
   );
 
-  const currentIndex = mod.lessons.findIndex((l) => l.slug === lesson.slug);
+  const currentIndex = mod.lessons.findIndex((lsn) => lsn.slug === lesson.slug);
   const prevLesson = currentIndex > 0 ? mod.lessons[currentIndex - 1] : null;
   const nextLesson =
     currentIndex < mod.lessons.length - 1 ? mod.lessons[currentIndex + 1] : null;
@@ -123,10 +123,23 @@ export default async function LessonPage({
     revalidatePath(`/education/${mSlug}/${lSlug}`);
     revalidatePath(`/education/${mSlug}`);
     revalidatePath("/education");
-    if (nextLesson) {
-      redirect(`/education/${mSlug}/${nextLesson.slug}`);
-    } else if (nextModule) {
-      redirect(`/education/${nextModule.slug}`);
+    const actionMod = getModule(mSlug);
+    const actionIdx = actionMod
+      ? actionMod.lessons.findIndex((lsn) => lsn.slug === lSlug)
+      : -1;
+    const actionNext =
+      actionMod && actionIdx >= 0 && actionIdx < actionMod.lessons.length - 1
+        ? actionMod.lessons[actionIdx + 1]
+        : null;
+    const actionModIdx = EDUCATION_MODULES.findIndex((m) => m.slug === mSlug);
+    const actionNextMod =
+      !actionNext && actionModIdx >= 0 && actionModIdx < EDUCATION_MODULES.length - 1
+        ? EDUCATION_MODULES[actionModIdx + 1]
+        : null;
+    if (actionNext) {
+      redirect(`/education/${mSlug}/${actionNext.slug}`);
+    } else if (actionNextMod) {
+      redirect(`/education/${actionNextMod.slug}`);
     } else {
       redirect("/education");
     }
@@ -275,7 +288,7 @@ export default async function LessonPage({
             );
           }
           if (trimmed.startsWith("- ") || trimmed.match(/^\d+\. /)) {
-            const lines = trimmed.split("\n").filter((l) => l.trim());
+            const lines = trimmed.split("\n").filter((ln) => ln.trim());
             const isOrdered = trimmed.match(/^\d+\. /);
             return isOrdered ? (
               <ol key={idx} style={{ paddingLeft: "1.5rem", marginBottom: "1rem" }}>
