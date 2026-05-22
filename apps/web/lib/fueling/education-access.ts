@@ -969,7 +969,7 @@ export function getLesson(
 ): { module: Module; lesson: Lesson } | undefined {
   const mod = getModule(moduleSlug);
   if (!mod) return undefined;
-  const lesson = mod.lessons.find((l) => l.slug === lessonSlug);
+  const lesson = mod.lessons.find((lsn) => lsn.slug === lessonSlug);
   if (!lesson) return undefined;
   return { module: mod, lesson };
 }
